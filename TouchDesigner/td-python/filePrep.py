@@ -15,6 +15,7 @@ class ToxExporter:
         print("TOX Exporter Init")
 
     def Build_inventory(self) -> None:
+
         self._build_inventory()
 
     def Build_for_release(self) -> None:
@@ -33,7 +34,7 @@ class ToxExporter:
             'base_sm_comps': 'tdComp'
         }
 
-        op_sources: list[str] = ['base_templates']
+        op_sources: list[str] = ['base_examples']
         source_exclude_list: list[str] = ['base_template', 'base_icon']
         set_exclude_list: list[str] = ['base_icon',]
 
@@ -43,7 +44,7 @@ class ToxExporter:
             # handle all blocks / folders of examples
             for each_block in blocks:
                 single_examples: list = each_block.findChildren(
-                    type=baseCOMP, depth=1)
+                    type=COMP, depth=1)
 
                 # skip template and icon ops
                 if each_block.name in source_exclude_list:
