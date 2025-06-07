@@ -6,8 +6,6 @@ import SudoMagic
 class ToxExporter:
     def __init__(self, ownerOp) -> None:
         self.inventory = SudoMagic.entities.githubCollection()
-        self.inventory.author = ipar.Settings.Author.eval()
-        self.inventory.source = ipar.Settings.Repo.eval()
 
         self.Release_dir_root: str = "../release/"
         self.Log_file: str = "log.txt"
@@ -15,6 +13,9 @@ class ToxExporter:
         print("TOX Exporter Init")
 
     def Build_inventory(self) -> None:
+        self.inventory.author = ipar.Settings.Author.eval()
+        self.inventory.source = ipar.Settings.Repo.eval()
+        print(self.inventory.source)
 
         self._build_inventory()
 
