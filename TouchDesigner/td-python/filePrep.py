@@ -7,7 +7,7 @@ class ToxExporter:
     def __init__(self, ownerOp) -> None:
         self.inventory = SudoMagic.entities.githubCollection()
 
-        self.Release_dir_root: str = "../release/"
+        self.Release_dir_root: str = "../release/package"
         self.Log_file: str = "log.txt"
 
         print("TOX Exporter Init")
