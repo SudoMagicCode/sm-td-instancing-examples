@@ -13,8 +13,6 @@ class ToxExporter:
         print("TOX Exporter Init")
 
     def Build_inventory(self) -> None:
-        self.inventory.author = ipar.Settings.Author.eval()
-        self.inventory.source = ipar.Settings.Repo.eval()
         print(self.inventory.source)
 
         self._build_inventory()
@@ -28,6 +26,8 @@ class ToxExporter:
         project.quit(force=True)
 
     def _build_inventory(self, log_to_file: bool = False) -> None:
+        self.inventory.author = ipar.Settings.Author.eval()
+        self.inventory.source = ipar.Settings.Repo.eval()
         print('-> Starting build process')
 
         name_to_type_map: dict[str, str] = {
