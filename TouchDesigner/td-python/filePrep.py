@@ -4,9 +4,9 @@ import SudoMagic
 
 
 class ToxExporter:
-    def __init__(self, ownerOp) -> None:
+    def __init__(self, ownerOp: baseCOMP) -> None:
+        self.ownerOp = ownerOp
         self.inventory = SudoMagic.entities.githubCollection()
-
         self.Release_dir_root: str = "../release/package"
         self.Log_file: str = "log.txt"
 
@@ -27,7 +27,9 @@ class ToxExporter:
 
     def _build_inventory(self, log_to_file: bool = False) -> None:
         self.inventory.author = ipar.Settings.Author.eval()
-        self.inventory.source = ipar.Settings.Repo.eval()
+        self.inventory.source = self.ownerOp.op(
+            "base_prep_and_package").par.Repo.eval()
+
         print('-> Starting build process')
 
         name_to_type_map: dict[str, str] = {
@@ -76,12 +78,26 @@ class ToxExporter:
         self.write_inventory_to_file(self.inventory.to_dict())
 
     def _generate_op_info(self, target_op, path: str) -> dict:
+        type_tag: SudoMagic.entities.cloudPaletteTypes.notYetAssigned
+
+        # assign type tag
+        if 'block' in target_op.tags:
+            type_tag = SudoMagic.entities.cloudPaletteTypes.folder
+        else:
+            try:
+                type_tag_as_string: str = target_op.par.Remotetype.eval()
+                if type_tag_as_string == 'tdComp':
+                    type_tag = SudoMagic.entities.cloudPaletteTypes.tdComp
+                else:
+                    type_tag = SudoMagic.entities.cloudPaletteTypes.tdTemplate
+            except Exception as e:
+                pass
 
         remote_op: SudoMagic.entities.remoteTox = SudoMagic.entities.remoteTox()
         # generate all the info needed for dict
         remote_op.asset_path
         remote_op.path = path
-        remote_op.type_tag = SudoMagic.entities.cloudPaletteTypes.folder if 'block' in target_op.tags else SudoMagic.entities.cloudPaletteTypes.tdTemplate
+        remote_op.type_tag = type_tag
         remote_op.display_name = target_op.par.Blockname.eval(
         ) if 'block' in target_op.tags else target_op.par.Compname.eval()
         remote_op.tox_version = '' if 'block' in target_op.tags else target_op.par.Toxversion.eval()
@@ -116,5 +132,6 @@ class ToxExporter:
     def save_external(self, target_op) -> str:
         asset_path = f'{target_op.id}.{target_op.name}.tox'
         save_path = f'{self.Release_dir_root}{asset_path}'
+        target_op.store("author", ipar.Settings.Author.eval())
         target_op.save(save_path)
         return asset_path

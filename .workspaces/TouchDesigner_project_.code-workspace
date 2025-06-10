@@ -1,14 +1,23 @@
 {
     "folders": [
         {
-            "name": "Template Dev",
-            "path": "../",
-            "cwd": "${workspaceFolder}/project",
-            "python.interpreterPath": "C:/Program Files/Derivative/TouchDesigner.2023.11600/bin/python.exe"
-        },
+            "name": "TD Component Dev",
+            "path": "../TouchDesigner"
+        }
     ],
     "settings": {
-        "files.exclude": {},
-        "workbench.colorTheme": "Overflow Contrast (rainglow)",
-    },
+        "python.defaultInterpreterPath": "C:\\Program Files\\Derivative\\TouchDesigner.2025.30060\\bin\\python.exe",
+        "python.analysis.autoSearchPaths": true,
+        "python.autoComplete.extraPaths": [
+            "C:\\Program Files\\Derivative\\TouchDesigner.2025.30060\\bin\\python\\Lib\\site-packages",
+            ".\\scripts",
+            ".\\TDDepthAnythingHF_vEnv\\Lib\\site-packages",
+            "../TouchDesigner/td-python/SudoMagic"
+        ],
+        "python.analysis.extraPaths": [
+            "C:\\Program Files\\Derivative\\TouchDesigner.2025.30060\\bin\\python\\Lib\\site-packages",
+            ".\\scripts",
+            ".\\TDDepthAnythingHF_vEnv\\Lib\\site-packages",
+        ],
+    }
 }
