@@ -1,5 +1,5 @@
 {
-    "BUILD": "FALSE",
+    "BUILD": "TRUE",
     "TD_VERSION": "2025.30060",
     "PROJECT_FILE": "./TouchDesigner/project.toe",
     "COMP_NAME": "",
