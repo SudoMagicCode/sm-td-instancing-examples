@@ -91,7 +91,7 @@ class ToxExporter:
                 else:
                     type_tag = SudoMagic.entities.cloudPaletteTypes.tdTemplate
             except Exception as e:
-                pass
+                print(e)
 
         remote_op: SudoMagic.entities.remoteTox = SudoMagic.entities.remoteTox()
         # generate all the info needed for dict
