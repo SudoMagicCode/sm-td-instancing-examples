@@ -7,8 +7,9 @@ class ToxExporter:
     def __init__(self, ownerOp: baseCOMP) -> None:
         self.ownerOp = ownerOp
         self.inventory = SudoMagic.entities.githubCollection()
-        self.Release_dir_root: str = "../release/package"
+        self.Release_dir_root: str = "../release/package/"
         self.Log_file: str = "log.txt"
+        self.save_buffer: COMP = ownerOp.op('base_save_buffer')
 
         print("TOX Exporter Init")
 
@@ -37,12 +38,13 @@ class ToxExporter:
             'base_sm_comps': 'tdComp'
         }
 
-        op_sources: list[str] = ['base_examples']
+        op_sources: list[str] = ['base_comps']
         source_exclude_list: list[str] = ['base_template', 'base_icon']
         set_exclude_list: list[str] = ['base_icon',]
 
         for each_source in op_sources:
-            blocks: list = op(each_source).findChildren(type=baseCOMP, depth=1)
+            blocks: list = op.PROJECT.op(
+                each_source).findChildren(type=baseCOMP, depth=1)
 
             # handle all blocks / folders of examples
             for each_block in blocks:
@@ -130,8 +132,13 @@ class ToxExporter:
             file.write(json.dumps(inventory))
 
     def save_external(self, target_op) -> str:
-        asset_path = f'{target_op.id}.{target_op.name}.tox'
+        asset_path = f'{target_op.name}.tox'
         save_path = f'{self.Release_dir_root}{asset_path}'
-        target_op.store("author", ipar.Settings.Author.eval())
-        target_op.save(save_path)
+
+        copy: COMP = self.save_buffer.copy(target_op)
+        copy.color = (0.67, 0.67, 0.67)
+        copy.store("author", ipar.Settings.Author.eval())
+        copy.save(save_path)
+        copy.destroy()
+
         return asset_path
